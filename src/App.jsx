@@ -1,15 +1,12 @@
 import './App.css';
-import { Button } from "@/components/ui/button.jsx";
+import PokemonListPage from "@/pages/PokemonListPage.jsx";
 
 
 function App() {
 
     return (
         <>
-            <div className={ 'flex flex-col items-center justify-center min-h-svh' }>
-                <span>Vite + React + Tailwind + Shadcn</span>
-                <Button>Click me</Button>
-            </div>
+            <PokemonListPage />
         </>
     )
 
