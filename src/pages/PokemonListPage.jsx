@@ -23,7 +23,7 @@ export default function PokemonListPage() {
             const data = await getPokemonList(page);
             setPokemonList(data.results);
         } catch (err) {
-            setError("Error al obtener los Pokémon:", err);
+            setError("Error:", err);
         } finally {
             setLoading(false);
         }
@@ -31,23 +31,43 @@ export default function PokemonListPage() {
 
 
     return (
-        <>
-            <h1>Lista de Pokémon</h1>
-            { loading && <p>Cargando...</p> }
-            { error && <p>{error}</p> }
+        <div className="flex flex-col min-h-screen">
+            {/* title */}
+            <header className={ [
+                'w-full p-4',
+                'text-xl text-center font-bold',
+                'border-neutral-200 border-b'].join(' ') }>
+                PokéAPI
+            </header>
 
-            <div>
-                { pokemonList.map(pokemon => (
-                    <PokemonItem key={ pokemon.id } pokemon={ pokemon } />
-                ))}
-            </div>
+            {/* messages */}
+            { loading && <p className={ 'text-center' }>loading...</p> }
+            { error && <p className={ 'text-center' }>{ error }</p> }
 
-            <div>
-                <Button onClick={() => { setPage(prev => prev - 1) }}>Anterior</Button>
+            {/* pokemon list */}
+            <main className={ [
+                'flex-1 flex justify-center items-center p-6',
+                'bg-neutral-100'].join(' ') }>
+                <div className={ [
+                    'grid grid-cols-[repeat(auto-fill,_minmax(320px,_1fr))]',
+                    'gap-6 w-full max-w-6xl mx-auto place-items-center'
+                ].join(' ') }>
+                    { pokemonList.map((pokemon) => (
+                        <PokemonItem key={ pokemon.id } pokemon={ pokemon } />
+                    ))}
+                </div>
+            </main>
+
+            {/* paginator */}
+            <footer className={ [
+                'flex justify-center w-full p-4 gap-4',
+                'text-center',
+                'border-neutral-200 border-t'].join(' ') }>
+                <Button onClick={() => setPage((prev) => prev - 1)}>Previous</Button>
                 <span>{ page }</span>
-                <Button onClick={() => { setPage(prev => prev + 1) }}>Siguiente</Button>
-            </div>
-        </>
+                <Button onClick={() => setPage((prev) => prev + 1)}>Next</Button>
+            </footer>
+        </div>
     );
 
 }
