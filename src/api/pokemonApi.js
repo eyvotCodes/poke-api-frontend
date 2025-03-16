@@ -1,7 +1,7 @@
 import { apiRequest } from "./apiClient";
 
 
-const API_BASE_URL = "http://pokeapi.us-west-2.elasticbeanstalk.com/api";
+const API_BASE_URL = "https://pokeapi.us-west-2.elasticbeanstalk.com";
 
 
 export async function getPokemonList(page = 1) {
