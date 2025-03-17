@@ -1,7 +1,5 @@
 import { apiRequest } from "./apiClient";
-
-
-const API_BASE_URL = "https://pokeapi-backend.eyvot.com/api";
+import { API_BASE_URL } from "@/config/webClient.js";
 
 
 export async function getPokemonList(page = 1) {
