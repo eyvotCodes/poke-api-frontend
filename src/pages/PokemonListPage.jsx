@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { getPokemonList } from "../api/pokemonApi";
-import PokemonItem from "../components/PokemonItem.jsx";
 import { Button } from "@/components/ui/button.jsx";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import PokemonItem from "../components/PokemonItem.jsx";
 import { GENERIC_ERROR_LOAD_MESSAGE } from "@/config/constants.js";
 
 
@@ -76,15 +77,46 @@ export default function PokemonListPage() {
                 'flex justify-center w-full p-4 gap-4',
                 'text-center',
                 'border-neutral-200 border-t'].join(' ') }>
-                <Button onClick={() => setPage((prev) => prev - 1)}
-                        disabled={ isFirstPage() || loading }>
-                    Previous
-                </Button>
-                <span>{ page }</span>
-                <Button onClick={() => setPage((prev) => prev + 1)}
-                        disabled={ isLastPage() || loading }>
-                    Next
-                </Button>
+
+                <div className={ 'flex justify-center items-center h-full gap-2 p-4' }>
+                    { page > 1 && (
+                        <Button onClick={() => setPage(1)}
+                                variant='ghost'
+                                className={ 'text-sm px-3 py-2' }>
+                            First
+                        </Button>
+                    )}
+
+                    <Button onClick={() => setPage((prev) => prev - 1)}
+                            disabled={ isFirstPage() || loading }
+                            variant='default'
+                            className={ 'text-sm px-3 py-2 ml-6' }>
+                        <ChevronLeft className="w-5 h-5" />
+                    </Button>
+
+                    <span className={ [
+                        'px-4 py-2',
+                        'bg-neutral-100 text-lg font-bold',
+                        'border-gray-300  border rounded-lg'
+                        ].join(' ') }>
+                        { page }
+                    </span>
+
+                    <Button onClick={() => setPage((prev) => prev + 1)}
+                            variant='default'
+                            disabled={ isLastPage() || loading }
+                            className={ 'text-sm px-3 py-2 mr-6' }>
+                        <ChevronRight className="w-5 h-5" />
+                    </Button>
+
+                    { page < numberOfPages && (
+                        <Button onClick={() => setPage(numberOfPages)}
+                                variant='ghost'
+                                className={ 'text-sm px-3 py-2' }>
+                            Last
+                        </Button>
+                    )}
+                </div>
             </footer>
         </div>
     );
