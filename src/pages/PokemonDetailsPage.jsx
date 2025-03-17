@@ -11,6 +11,8 @@ import {
     AvatarImage,
 } from "@/components/ui/avatar";
 
+import { GENERIC_ERROR_LOAD_MESSAGE } from "@/config/constants.js";
+
 
 export default function PokemonDetailsPage() {
     // state
@@ -33,8 +35,9 @@ export default function PokemonDetailsPage() {
         try {
             const data = await getPokemonDetails(id);
             setPokemon(data);
-        } catch (err) {
-            setError("Error:", err);
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            setError(GENERIC_ERROR_LOAD_MESSAGE);
         } finally {
             setLoading(false);
         }

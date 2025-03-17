@@ -3,8 +3,11 @@ import { getPokemonList } from "../api/pokemonApi";
 import PokemonItem from "../components/PokemonItem.jsx";
 import { Button } from "@/components/ui/button.jsx";
 
+import { GENERIC_ERROR_LOAD_MESSAGE } from "@/config/constants.js";
+
 
 export default function PokemonListPage() {
+    const [numberOfPages, setNumberOfPages] = useState(0);
     const [pokemonList, setPokemonList] = useState([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -21,12 +24,22 @@ export default function PokemonListPage() {
         setError(null);
         try {
             const data = await getPokemonList(page);
+            setNumberOfPages(data.pages);
             setPokemonList(data.results);
-        } catch (err) {
-            setError("Error:", err);
+        } catch (error) {
+            console.log(JSON.stringify(error));
+            setError(GENERIC_ERROR_LOAD_MESSAGE);
         } finally {
             setLoading(false);
         }
+    }
+
+    function isFirstPage() {
+        return page === 1;
+    }
+
+    function isLastPage() {
+        return page === numberOfPages;
     }
 
 
@@ -63,9 +76,15 @@ export default function PokemonListPage() {
                 'flex justify-center w-full p-4 gap-4',
                 'text-center',
                 'border-neutral-200 border-t'].join(' ') }>
-                <Button onClick={() => setPage((prev) => prev - 1)}>Previous</Button>
+                <Button onClick={() => setPage((prev) => prev - 1)}
+                        disabled={ isFirstPage() || loading }>
+                    Previous
+                </Button>
                 <span>{ page }</span>
-                <Button onClick={() => setPage((prev) => prev + 1)}>Next</Button>
+                <Button onClick={() => setPage((prev) => prev + 1)}
+                        disabled={ isLastPage() || loading }>
+                    Next
+                </Button>
             </footer>
         </div>
     );
